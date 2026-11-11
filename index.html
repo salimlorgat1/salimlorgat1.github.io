@@ -342,6 +342,38 @@ Payment is by <strong>UK Bank Transfer</strong>. Once you submit your order, ban
 <div class="form-group">
 <label for="message">Your Message, Review, or Order Notes *</label>
 <textarea id="message" name="message" rows="4" required></textarea>
+</div>
+
+<div>
+<button type="submit" class="btn-gold">Send Message / Order Request</button>
+</div>
+
+<p class="spam-notice">
+Strictly for reader discussions, reviews, and book orders. No unsolicited marketing or spam emails, please.
+</p>
+</form>
+</section>
+
+<footer>
+© 2026 Salim Y Lorgat. Open Access Publication. <a href="surviving-the-burden.pdf" download>Download Free PDF Now</a>
+</footer>
+
+</div>
+
+<script>
+function toggleOrderFields() {
+var selection = document.getElementById("inquiry_type").value;
+var orderBox = document.getElementById("order-details");
+if (selection === "Order Print Copy (£10)") {
+orderBox.style.display = "block";
+} else {
+orderBox.style.display = "none";
+}
+}
+</script>
+
+</body>
+</html>
 
 
 
