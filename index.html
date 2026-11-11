@@ -289,6 +289,7 @@ Drawing upon lived experience, community memory, and social observation, <em>Sur
 Salim Yusuf Lorgat was born in Gujarat, India, and later settled in Blackburn, Lancashire. Throughout his adult life, he has been active in community service, local government, charitable work, and public affairs. A former councillor, charity trustee, and community volunteer, he has spent many years reflecting on migration, identity, family expectations, and the experiences of the Gujarati Muslim diaspora in Britain. <em>Surviving the Burden</em> is his first book.
 </p>
 
+
 <!-- Discussion, Reviews & £10 Book Order Form -->
 <section class="contact-box">
 <h3>Discussion, Reviews &amp; Book Orders</h3>
@@ -296,7 +297,7 @@ Salim Yusuf Lorgat was born in Gujarat, India, and later settled in Blackburn, L
 Use the form below to share feedback, submit a review, or order a print copy of <em>Surviving the Burden</em> for <strong>£10</strong>.
 </p>
 
-<form action="https://formspree.io" method="POST" class="contact-form">
+<form id="book-contact-form" action="https://formspree.io/f/xoedqdnj" method="POST" class="contact-form">
 
 <!-- Hidden spam trap (honeypot) for bots -->
 <input type="text" name="_gotcha" style="display:none" />
@@ -345,8 +346,10 @@ Payment is by <strong>UK Bank Transfer</strong>. Once you submit your order, ban
 </div>
 
 <div>
-<button type="submit" class="btn-gold">Send Message / Order Request</button>
+<button type="submit" id="submit-btn" class="btn-gold">Send Message / Order Request</button>
 </div>
+
+<p id="form-status" style="margin: 10px 0 0 0; font-weight: bold; font-size: 0.98rem;"></p>
 
 <p class="spam-notice">
 Strictly for reader discussions, reviews, and book orders. No unsolicited marketing or spam emails, please.
@@ -370,10 +373,53 @@ orderBox.style.display = "block";
 orderBox.style.display = "none";
 }
 }
+
+var form = document.getElementById("book-contact-form");
+form.addEventListener("submit", async function(event) {
+event.preventDefault();
+var status = document.getElementById("form-status");
+var btn = document.getElementById("submit-btn");
+var data = new FormData(event.target);
+
+btn.disabled = true;
+btn.textContent = "Sending...";
+
+fetch(event.target.action, {
+method: form.method,
+body: data,
+headers: {
+'Accept': 'application/json'
+}
+}).then(response => {
+btn.disabled = false;
+btn.textContent = "Send Message / Order Request";
+if (response.ok) {
+status.style.color = "#2e7d32";
+status.textContent = "Thank you! Your message or order request has been sent to Salim Y Lorgat.";
+form.reset();
+document.getElementById("order-details").style.display = "none";
+} else {
+response.json().then(data => {
+status.style.color = "#c62828";
+if (Object.hasOwn(data, 'errors')) {
+status.textContent = data["errors"].map(error => error["message"]).join(", ");
+} else {
+status.textContent = "Oops! There was a problem submitting your form. Please try again.";
+}
+});
+}
+}).catch(error => {
+btn.disabled = false;
+btn.textContent = "Send Message / Order Request";
+status.style.color = "#c62828";
+status.textContent = "Oops! There was a network problem submitting your form. Please try again.";
+});
+});
 </script>
 
 </body>
 </html>
+
 
 
 
